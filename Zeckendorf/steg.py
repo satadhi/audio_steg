@@ -1,6 +1,6 @@
 import getopt, math, os, struct, sys, wave
 import Zeckendorf
-
+import pickle
 import Convertor
 # reading the wav file
 sound= wave.open('../audio4.wav','r')
@@ -11,6 +11,9 @@ sample_width = sound.getsampwidth()
 num_frames = sound.getnframes()
 num_samples = num_frames * num_channels
 # print(num_samples)
+
+multi_bit = int(input("Enter the no of bits: "))
+
 framerates = params[2]
 if (sample_width == 1):  # samples are unsigned 8-bit integers
     fmt = "{}B".format(num_samples)
@@ -33,16 +36,55 @@ fib_raw_data =[]
 for i in raw_data:
     fib_raw_data.append(Zeckendorf.printFibRepresntation(i,sample_width))
 
-key = 0 # total no of bits that is stored which is equal to input_data_bits
+key = [] # total no of bits that is stored which is equal to input_data_bits
 #the greater of 2 number and using it to run the loop for saving the hidddentext
-
+key = [] # frams that are effected, that is stored in hidden audio files
+j=0 # this is used to iterate over the input data values
+i=0 # this is iterating over the audio frames.
+last_loop= len(input_data_bits)%multi_bit#number of bits to be used in last sample
+#for _ in range(no_of_loops):
 # embedding the message bit by bit
-for i in range(min(len(input_data_bits) ,len(fib_raw_data))):
-    fib_raw_data[i][-1] = 0
-    fib_raw_data[i][-2] = 0
-    fib_raw_data[i][-1] = input_data_bits[i]
-    key += 1
+while (j < (len(input_data_bits)-last_loop) and i < len(fib_raw_data)):
+    temp = fib_raw_data[i][:]
+    #check_bit_for_3_bit = 0
+    for x in range(multi_bit):
+            temp[-(1+x*2)] = input_data_bits[j+x]
+    sum = Zeckendorf.back_to_decimal(temp,sample_width)
+    temp2 = Zeckendorf.printFibRepresntation(sum,sample_width)
+    temp2.reverse()
+    # print(temp)
+    # print(temp2)
+    if temp == temp2:
+        for x in range(multi_bit):
+            fib_raw_data[i][-(1+x*2)] = input_data_bits[j+x]
+                #print(input_data_bits[j+x],end='')
+        j+=multi_bit
+        key.append(i)
 
+
+    i+=1
+#same thing for the last loop of the hiding porcess
+while i < len(fib_raw_data) and j < len(input_data_bits):
+    temp = fib_raw_data[i][:]
+    for x in range(last_loop):
+        temp[-(1+x*2)] = input_data_bits[j+x]
+    sum = Zeckendorf.back_to_decimal(temp,sample_width)
+    temp2 = Zeckendorf.printFibRepresntation(sum,sample_width)
+    temp2.reverse()
+    if temp == temp2:
+        for x in range(last_loop):
+            fib_raw_data[i][-(1+x*2)] = input_data_bits[j+x]
+        j+=multi_bit
+        key.append(i)
+        break
+    i+=1
+
+#the last two bits are extra infromation
+key.append(multi_bit)#second last
+key.append(last_loop)#number of bits to be used in last sample
+#saving the key file as a binay file
+with open('keyfile', 'wb') as fp:
+    pickle.dump(key, fp)
 # we cannot have have lsb as 1 if 2nd lsb is also 1 according the Zeckendorf
 #theorem. so we make all the fib_raw_data[10] = 0 in that way we avoid contradicting
 # Zeckendorf constraints
@@ -56,6 +98,21 @@ for i in range(len(fib_raw_data)):
 # for i in range(len(decimal_list)):
 #     print('{} -- {}'.format(raw_data[i], decimal_list[i]))
 
+#----------> In this section we are calculate snr
+sigma_x = 0
+sigma_y = 0
+for i in range(key[-3]):
+     sigma_x = sigma_x + raw_data[i]
+
+
+for i in range(key[-3]):
+     sigma_y +=decimal_list[i]
+
+print("sigma_x {}  sigma_y {}".format(sigma_x,sigma_y))
+snr = 10*math.log10(abs(sigma_x**2/(sigma_x**2 - sigma_y**2)))
+print("the snr value is {}".format(snr))
+
+#--------------> End of the section for calculating snr
 # this create the new stego wav file !
 wav_file=wave.open('lemonjuice.wav',"wb")
 values = []
@@ -64,4 +121,4 @@ for s in decimal_list:
     values.append(struct.pack(fmt[-1], s)) # when packing we need B or h not whole of num_samples
 wav_file.writeframes(b"".join(values))
 wav_file.close()
-print('{} is the key for your file '.format(key))
+print("total sample-> {} and total sample used -> {}".format(key[-3],len(key)))

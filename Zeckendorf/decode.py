@@ -1,10 +1,16 @@
 import getopt, math, os, struct, sys, wave
 import Zeckendorf
-
+import pickle
 import Convertor
 
-key = int(input("enter the key --> "))
+with open ('keyfile', 'rb') as fp:
+    key = pickle.load(fp)
 # file_name = input("enter the wav file name ")
+last_loop = key.pop(-1)
+multi_bit = key.pop(-1)
+last_sample = 0
+if last_loop != 0:
+    last_sample= key.pop(-1)
 
 sound= wave.open('lemonjuice.wav','r')
 #spf2 = wave.open('opera_new.wav','r')
@@ -34,11 +40,25 @@ for i in raw_data:
 
 actual_text_bits = []
 
-for i in range(key):
-    actual_text_bits.append(fib_raw_data[i][-1])
+# for i in range(100):
+#     print(fib_raw_data[i])
+if last_loop == 0:
+    for i in key:
+        for x in range(multi_bit):
+            actual_text_bits.append(fib_raw_data[i][-(1+x*2)])
+                #print(fib_raw_data[i][-(1+x*2)], end='')
+else:
+    for i in key:
+        for x in range(multi_bit):
+            actual_text_bits.append(fib_raw_data[i][-(1+x*2)])
+
+    for x in range(last_loop):
+        actual_text_bits.append(fib_raw_data[last_sample][-(1+x*2)])
+
 
 actual_text_bits = ''.join(actual_text_bits)
-
+#print(actual_text_bits)
 text = Convertor.text_from_bits(actual_text_bits)
+print(text, file=open("output.txt", "a"))
 
 print(text)
