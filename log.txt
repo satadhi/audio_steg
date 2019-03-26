@@ -1,1 +1,3 @@
-the natural folder is not complete also the catalan number is not added.
+working on fib-(p,r)
+decode.py for fib-(p,r) is not working
+also check for snr values its not completed yet

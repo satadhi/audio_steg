@@ -5,6 +5,8 @@ import Convertor
 
 #taking p-value
 p_value = int(input("enter p value of p-series : "))
+r_value = int(input("enter r value of r-series : "))
+
 multi_bit = int(input("Enter the no of bits: "))
 
 # reading the wav file
@@ -35,7 +37,7 @@ input_data_bits = Convertor.text_to_bits(text.read()) #the bits are in str forma
 # obtaining raw fibonacci bit representation of the given wav file data
 fib_raw_data =[]
 for i in raw_data:
-    fib_raw_data.append(Zeckendorf.printFibRepresentation(i,p_value))
+    fib_raw_data.append(Zeckendorf.printFibRepresentation(i,p_value,r_value))
 
 key = 0 # total no of bits that is stored which is equal to input_data_bits
 
@@ -53,8 +55,8 @@ while (j < (len(input_data_bits)-last_loop) and i < len(fib_raw_data)):
     #check_bit_for_3_bit = 0
     for x in range(multi_bit):
         temp[-(1+x*3)] = input_data_bits[j+x]
-    sum = Zeckendorf.back_to_decimal(temp,p_value)
-    temp2 = Zeckendorf.printFibRepresentation(sum,p_value)
+    sum = Zeckendorf.back_to_decimal(temp,p_value,r_value)
+    temp2 = Zeckendorf.printFibRepresentation(sum,p_value,r_value)
     temp2.reverse()
     # print(temp)
     # print(temp2)
@@ -73,8 +75,8 @@ while i < len(fib_raw_data) and j < len(input_data_bits):
     temp = fib_raw_data[i][:]
     for x in range(last_loop):
         temp[-(1+x*3)] = input_data_bits[j+x]
-    sum = Zeckendorf.back_to_decimal(temp,p_value)
-    temp2 = Zeckendorf.printFibRepresentation(sum,p_value)
+    sum = Zeckendorf.back_to_decimal(temp,p_value,r_value)
+    temp2 = Zeckendorf.printFibRepresentation(sum,p_value,r_value)
     temp2.reverse()
     if temp == temp2:
         for x in range(last_loop):
@@ -88,6 +90,7 @@ while i < len(fib_raw_data) and j < len(input_data_bits):
 key.append(multi_bit)#second last
 key.append(last_loop)#number of bits to be used in last sample
 key.append(p_value)
+key.append(r_value)
 #saving the key file as a binay file
 with open('keyfile', 'wb') as fp:
     pickle.dump(key, fp)
@@ -96,7 +99,7 @@ with open('keyfile', 'wb') as fp:
 # converting the fib_raw_data back to back_to_decimal
 decimal_list =[]
 for i in range(len(fib_raw_data)):
-    decimal_list.append(Zeckendorf.back_to_decimal(fib_raw_data[i],p_value))
+    decimal_list.append(Zeckendorf.back_to_decimal(fib_raw_data[i],p_value,r_value))
 # # this is for check the difference between the first 15 number of decimal
 # for i in range(len(decimal_list)):
 #     print('{} -- {}'.format(raw_data[i], decimal_list[i]))
@@ -125,6 +128,6 @@ for s in decimal_list:
     values.append(struct.pack(fmt[-1], s)) # when packing we need B or h not whole of num_samples
 wav_file.writeframes(b"".join(values))
 wav_file.close()
-print("total sample-> {} and total sample used -> {}".format(key[-4],len(key)))
+print("total sample-> {} and total sample used -> {}".format(key[-5],len(key)))
 
 #print("successful")

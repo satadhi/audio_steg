@@ -18,9 +18,10 @@ def construct_fib_series(p,r):
     if ( arr[-1] > 255):
         arr.pop()
     #removing extra ones from the list
-    l_set = set(arr)
-    arr = list(l_set)
-    arr.sort()
+    #->
+    # l_set = set(arr)
+    # arr = list(l_set)
+    # arr.sort()
     return arr
 def nearestSmallerEqFib(n,p,r):
 
@@ -72,6 +73,6 @@ def back_to_decimal(n,p,r):
 if __name__== "__main__":
     # n = int(input("enter the number "))
     # print(printFibRepresntation(n)
-    print(construct_fib_series(3,5))
-    # print(printFibRepresntation(78,2))
+    print(construct_fib_series(1,2))
+    print(printFibRepresentation(1,1,2))
     # print(back_to_decimal(printFibRepresntation(78,2),2))
