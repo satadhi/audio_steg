@@ -74,5 +74,5 @@ if __name__== "__main__":
     # n = int(input("enter the number "))
     # print(printFibRepresntation(n)
     print(construct_fib_series(1,2))
-    print(printFibRepresentation(1,1,2))
+    print(printFibRepresentation(15,1,2))
     # print(back_to_decimal(printFibRepresntation(78,2),2))

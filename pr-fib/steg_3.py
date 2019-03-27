@@ -107,11 +107,11 @@ for i in range(len(fib_raw_data)):
 #----------> In this section we are calculation snr
 sigma_x = 0
 sigma_y = 0
-for i in range(key[-4]):
+for i in range(key[-5]):
      sigma_x = sigma_x + raw_data[i]
 
 
-for i in range(key[-4]):
+for i in range(key[-5]):
      sigma_y +=decimal_list[i]
 
 print("sigma_x {}  sigma_y {}".format(sigma_x,sigma_y))
@@ -128,6 +128,6 @@ for s in decimal_list:
     values.append(struct.pack(fmt[-1], s)) # when packing we need B or h not whole of num_samples
 wav_file.writeframes(b"".join(values))
 wav_file.close()
-print("total sample-> {} and total sample used -> {}".format(key[-5],len(key)))
+print("total sample-> {} and total sample used -> {}".format(key[-5]+1,len(key)-4))
 
 #print("successful")
