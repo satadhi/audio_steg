@@ -72,6 +72,8 @@ def back_to_decimal(n,p):
 if __name__== "__main__":
     # n = int(input("enter the number "))
     # print(printFibRepresntation(n)
-    print(construct_fib_series(2))
-    print(printFibRepresntation(78,2))
-    print(back_to_decimal(printFibRepresntation(78,2),2))
+    #print(construct_fib_series(2))
+    for i in range(100):
+        print(i)
+        print(printFibRepresentation(i,2))
+        #print(back_to_decimal(printFibRepresentation(i,2)))

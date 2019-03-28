@@ -51,5 +51,7 @@ def back_to_decimal(n):
 if __name__== "__main__":
 
     # n = int(input("enter the number "))
-    print(printLexRepresentation(255))
+    for i in range(100):
+        print(i)
+        print(printLexRepresentation(i))
     #print(nearestSmallerEqLex(20))

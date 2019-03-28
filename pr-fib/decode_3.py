@@ -1,16 +1,20 @@
 import getopt, math, os, struct, sys, wave
-import Lexical
+import Zeckendorf
 import pickle
 import Convertor
 
 #reading the key file
 with open ('keyfile', 'rb') as fp:
     key = pickle.load(fp)
-# for i in key:
-#     print(i)
+p_value = key.pop(-1)
+r_value = key.pop(-1)
 last_loop = key.pop(-1)
 multi_bit = key.pop(-1)
 last_sample = 0
+
+
+#print(last_loop)
+
 if last_loop != 0:
     last_sample= key.pop(-1)
 # file_name = input("enter the wav file name ")
@@ -39,7 +43,7 @@ raw_data = list(struct.unpack(fmt, sound.readframes(num_frames)))
 # raw data to lex representation of the decimanl number
 lex_raw_data =[]
 for i in raw_data:
-    lex_raw_data.append(Lexical.printLexRepresentation(i))
+    lex_raw_data.append(Zeckendorf.printFibRepresentation(i,p_value,r_value))
 
 actual_text_bits = []
 
@@ -49,21 +53,21 @@ if last_loop == 0:
     for i in key:
         for x in range(multi_bit):
             if x == 2 :
-                actual_text_bits.append(lex_raw_data[i][-(5)])
-                #print(lex_raw_data[i][-(10)], end='')
+                actual_text_bits.append(lex_raw_data[i][-(6)])
+                print(lex_raw_data[i][-(10)], end='')
             else:
-                actual_text_bits.append(lex_raw_data[i][-(1+x*2)])
-                #print(lex_raw_data[i][-(1+x*2)], end='')
+                actual_text_bits.append(lex_raw_data[i][-(1+x*3)])
+                print(lex_raw_data[i][-(1+x*2)], end='')
 else:
     for i in key:
         for x in range(multi_bit):
             if x == 2 :
-                actual_text_bits.append(lex_raw_data[i][-(5)])
+                actual_text_bits.append(lex_raw_data[i][-(6)])
             else:
-                actual_text_bits.append(lex_raw_data[i][-(1+x*2)])
+                actual_text_bits.append(lex_raw_data[i][-(1+x*3)])
 
     for x in range(last_loop):
-        actual_text_bits.append(lex_raw_data[last_sample][-(1+x*2)])
+        actual_text_bits.append(lex_raw_data[last_sample][-(1+x*3)])
 
 
 actual_text_bits = ''.join(actual_text_bits)

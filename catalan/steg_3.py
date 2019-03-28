@@ -53,7 +53,7 @@ while (j < (len(input_data_bits)-last_loop) and i < len(lex_raw_data)):
             # for r in range(6):
             #         check_bit_for_3_bit = temp[-(4+r)]
             # if check_bit_for_3_bit == 0:
-            temp[-(10)] = input_data_bits[j+x]
+            temp[-(5)] = input_data_bits[j+x]
             #print(x)
         else:
             temp[-(1+x*2)] = input_data_bits[j+x]
@@ -65,7 +65,7 @@ while (j < (len(input_data_bits)-last_loop) and i < len(lex_raw_data)):
     if temp == temp2:
         for x in range(multi_bit):
             if x == 2 :
-                lex_raw_data[i][-(10)] = input_data_bits[j+x]
+                lex_raw_data[i][-(5)] = input_data_bits[j+x]
                 #print(input_data_bits[j+x],end='')
             else:
                 lex_raw_data[i][-(1+x*2)] = input_data_bits[j+x]

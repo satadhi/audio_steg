@@ -52,7 +52,10 @@ while (j < (len(input_data_bits)-last_loop) and i < len(fib_raw_data)):
     temp = fib_raw_data[i][:]
     #check_bit_for_3_bit = 0
     for x in range(multi_bit):
-        temp[-(1+x*3)] = input_data_bits[j+x]
+        if x==2:
+            temp[-7] = input_data_bits[j+x]
+        else:
+            temp[-(1+x*3)] = input_data_bits[j+x]
     sum = Zeckendorf.back_to_decimal(temp,p_value)
     temp2 = Zeckendorf.printFibRepresentation(sum,p_value)
     temp2.reverse()
@@ -60,7 +63,10 @@ while (j < (len(input_data_bits)-last_loop) and i < len(fib_raw_data)):
     # print(temp2)
     if temp == temp2:
         for x in range(multi_bit):
-            fib_raw_data[i][-(1+x*3)] = input_data_bits[j+x]
+            if x==2:
+                temp[-7] = input_data_bits[j+x]
+            else:
+                fib_raw_data[i][-(1+x*3)] = input_data_bits[j+x]
                 #print(input_data_bits[j+x],end='')
         j+=multi_bit
         key.append(i)

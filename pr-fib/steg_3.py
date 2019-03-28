@@ -54,7 +54,11 @@ while (j < (len(input_data_bits)-last_loop) and i < len(fib_raw_data)):
     temp = fib_raw_data[i][:]
     #check_bit_for_3_bit = 0
     for x in range(multi_bit):
-        temp[-(1+x*3)] = input_data_bits[j+x]
+        if x==2:
+            temp[-(6)] = input_data_bits[j+x]
+        else:
+            temp[-(1+x*3)] = input_data_bits[j+x]
+
     sum = Zeckendorf.back_to_decimal(temp,p_value,r_value)
     temp2 = Zeckendorf.printFibRepresentation(sum,p_value,r_value)
     temp2.reverse()
@@ -62,7 +66,10 @@ while (j < (len(input_data_bits)-last_loop) and i < len(fib_raw_data)):
     # print(temp2)
     if temp == temp2:
         for x in range(multi_bit):
-            fib_raw_data[i][-(1+x*3)] = input_data_bits[j+x]
+            if x==2:
+                temp[-(6)] = input_data_bits[j+x]
+            else:
+                fib_raw_data[i][-(1+x*3)] = input_data_bits[j+x]
                 #print(input_data_bits[j+x],end='')
         j+=multi_bit
         key.append(i)
@@ -89,8 +96,8 @@ while i < len(fib_raw_data) and j < len(input_data_bits):
 #the last two bits are extra infromation
 key.append(multi_bit)#second last
 key.append(last_loop)#number of bits to be used in last sample
-key.append(p_value)
 key.append(r_value)
+key.append(p_value)
 #saving the key file as a binay file
 with open('keyfile', 'wb') as fp:
     pickle.dump(key, fp)
@@ -128,6 +135,6 @@ for s in decimal_list:
     values.append(struct.pack(fmt[-1], s)) # when packing we need B or h not whole of num_samples
 wav_file.writeframes(b"".join(values))
 wav_file.close()
-print("total sample-> {} and total sample used -> {}".format(key[-5]+1,len(key)-4))
+print("total sample-> {} and total sample used -> {}".format(key[-5]+3,len(key)-2))
 
 #print("successful")

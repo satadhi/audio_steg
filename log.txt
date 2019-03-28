@@ -1,3 +1,3 @@
-working on fib-(p,r)
-decode.py for fib-(p,r) is not working
-also check for snr values its not completed yet
+fib-(p,r)'s steg is working fine
+decode.py for fib-(p,r) is not working even for 2 bit
+rest done !
