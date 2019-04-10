@@ -4,15 +4,15 @@ import pickle
 import Convertor
 
 # reading the wav file
-sound= wave.open('../audio1.wav','r')
+sound= wave.open('../audio4.wav','r')
 #spf2 = wave.open('opera_new.wav','r')
 params = sound.getparams()
 num_channels = sound.getnchannels()
 sample_width = sound.getsampwidth()
 num_frames = sound.getnframes()
 num_samples = num_frames * num_channels
-print(sample_width)
-print(num_samples)
+# print(sample_width)
+# print(num_samples)
 multi_bit = int(input("Enter the no of bits: "))
 
 framerates = params[2]

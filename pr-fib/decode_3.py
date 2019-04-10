@@ -54,10 +54,10 @@ if last_loop == 0:
         for x in range(multi_bit):
             if x == 2 :
                 actual_text_bits.append(lex_raw_data[i][-(6)])
-                print(lex_raw_data[i][-(10)], end='')
+                #print(lex_raw_data[i][-(10)], end='')
             else:
                 actual_text_bits.append(lex_raw_data[i][-(1+x*3)])
-                print(lex_raw_data[i][-(1+x*2)], end='')
+                #print(lex_raw_data[i][-(1+x*2)], end='')
 else:
     for i in key:
         for x in range(multi_bit):
