@@ -1,5 +1,11 @@
 import getopt, math, os, struct, sys, wave
 
+#
+# This is the inverse of chr() for 8-bit strings and of unichr() for unicode
+# objects. If a unicode argument is given and Python was built with UCS2 Unicode,
+# then the character’s code point must be in the range [0..65535] inclusive.
+
+
 
 text = open('hide.txt','r') # reading hide.txt that is to be hidden
 m = int(input("enter the value of m "))
@@ -13,7 +19,7 @@ with open('hide.txt') as f:
     if not old_letter:
       pass
       break
-    y = m * (x%255) + c
+    y =( m * (x) + c)%65535
     new_letter = chr(ord(old_letter) + y)
     x=x+1
     new_text.append(new_letter)
