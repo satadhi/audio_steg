@@ -13,7 +13,7 @@ with open('encoded.txt') as f:
         if not old_letter:
             pass
             break
-        y =( m * (x) + c)%65535
+        y =( m * (x) + c)%65534
         new_letter = chr(ord(old_letter) - y)
         x=x+1
         new_text.append(new_letter)
@@ -26,3 +26,4 @@ output=''.join(new_text)
 # print(''.join(new_text))
 for i in new_text:
     print(i,end='')
+print("")
