@@ -123,6 +123,54 @@ print("the snr value is {}".format(snr))
 
 #--------------> End of the section for calculating snr
 
+
+#----------> In this section we are calculation spcc
+
+sigma_x = 0
+sigma_y = 0
+sigma_x_avg = 0
+sigma_y_avg = 0
+
+
+#this is calculating average of cover signal
+for i in range(key[-3]):
+     sigma_x_avg = sigma_x_avg + raw_data[i]
+
+sigma_x_avg = sigma_x_avg/(len(key)-2)
+
+
+#this is calculating average of stego signal
+for i in range(key[-3]):
+     sigma_y_avg = sigma_y_avg + decimal_list[i]
+
+sigma_y_avg = sigma_y_avg/(len(key)-2)
+
+
+#calculating sigma of x - x_avg
+temp_x = 0
+for i in range(key[-3]):
+    temp_x += (raw_data[i]-sigma_x_avg)*(raw_data[i]-sigma_x_avg)
+temp_x = math.sqrt(temp_x)
+
+
+#calculating sigma of y - y_avg
+temp_y = 0
+for i in range(key[-3]):
+    temp_y += (decimal_list[i]-sigma_y_avg)*(decimal_list[i]-sigma_y_avg)
+temp_y = math.sqrt(temp_y)
+
+#calculating the acutal spcc
+spcc = 0
+
+for i in range(key[-3]):
+    spcc += ((raw_data[i]-sigma_x_avg) * (decimal_list[i]-sigma_y_avg))/(temp_x * temp_y)
+
+spcc = spcc*spcc
+
+print("the value of spcc is -> {}".format(spcc))
+
+#--------------> End of the section for calculating spcc
+
 # this create the new stego wav file !
 wav_file=wave.open('lemonjuice.wav',"wb")
 values = []
