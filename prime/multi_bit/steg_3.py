@@ -4,7 +4,7 @@ import pickle
 import Convertor
 
 # reading the wav file
-sound= wave.open('../../audio4.wav','r')
+sound= wave.open('../../audio1.wav','r')
 #spf2 = wave.open('opera_new.wav','r')
 params = sound.getparams()
 num_channels = sound.getnchannels()

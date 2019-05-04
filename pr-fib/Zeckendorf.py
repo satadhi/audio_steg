@@ -22,6 +22,7 @@ def construct_fib_series(p,r):
     # l_set = set(arr)
     # arr = list(l_set)
     # arr.sort()
+    print(arr)
     return arr
 def nearestSmallerEqFib(n,p,r):
 
@@ -74,7 +75,8 @@ if __name__== "__main__":
     # n = int(input("enter the number "))
     # print(printFibRepresntation(n)
     #print(construct_fib_series(1,2))
-    for i in range(100):
-        print(i)
-        print(printFibRepresentation(i,1,2))
+    # for i in range(100):
+    #     print(i)
+    #     print(printFibRepresentation(i,1,2))
     # print(back_to_decimal(printFibRepresntation(78,2),2))
+    construct_fib_series(1,2)
