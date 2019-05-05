@@ -8,7 +8,7 @@ p_value = int(input("enter p value of p-series : "))
 multi_bit = int(input("Enter the no of bits: "))
 
 # reading the wav file
-sound= wave.open('../audio2.wav','r')
+sound= wave.open('../audio3.wav','r')
 #spf2 = wave.open('opera_new.wav','r')
 params = sound.getparams()
 num_channels = sound.getnchannels()

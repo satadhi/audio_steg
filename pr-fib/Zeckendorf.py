@@ -22,7 +22,7 @@ def construct_fib_series(p,r):
     # l_set = set(arr)
     # arr = list(l_set)
     # arr.sort()
-    print(arr)
+    #print(arr)
     return arr
 def nearestSmallerEqFib(n,p,r):
 
